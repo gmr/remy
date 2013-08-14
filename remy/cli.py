@@ -11,6 +11,7 @@ import sys
 from remy import cookbooks
 from remy import github
 from remy import jenkins
+from remy import roles
 from remy import __description__
 from remy import __version__
 
@@ -22,7 +23,7 @@ def add_cookbook_mgmt_options(parser):
 
     """
     cookbook = parser.add_parser('cookbook', help='Invoke in a Jenkins job to '
-                                                  'Update a cookbook in '
+                                                  'update a cookbook in '
                                                   'chef-repo')
     cookbook.add_argument('repo', action='store',
                           help='Git URL for chef-repo')
@@ -88,6 +89,17 @@ def add_jenkins_job_options(parser):
                           help='Hipchat room for notifications')
     cookbook.set_defaults(func='new_job')
 
+def add_role_options(parser):
+    """Add the role command and arguments.
+
+    :rtype: argparse.ArgumentParser
+
+    """
+    cookbook = parser.add_parser('roles', help='Invoke in a Jenkins job to '
+                                               'update the roles in chef-repo')
+    cookbook.add_argument('repo', action='store',
+                          help='Git URL for chef-repo')
+    cookbook.set_defaults(func='process_roles')
 
 
 def argparser():
@@ -99,6 +111,7 @@ def argparser():
     parser = argparse.ArgumentParser(description=__description__)
     sparser = parser.add_subparsers()
     add_cookbook_mgmt_options(sparser)
+    add_role_options(sparser)
     add_github_hook_options(sparser)
     add_jenkins_job_options(sparser)
     return parser
@@ -112,6 +125,13 @@ def main():
             sys.exit(1)
         obj = cookbooks.CookbookManager(args.repo)
         obj.process_cookbook()
+
+    elif args.func == 'process_roles':
+        if not os.environ.get('WORKSPACE'):
+            sys.stderr.write('This command should be run from a Jenkins job\n')
+            sys.exit(1)
+        obj = roles.Roles(args.repo)
+        obj.update_roles()
 
     elif args.func == 'github_hooks':
         obj = github.GitHubHook(args.github, args.owner, args.repo,
