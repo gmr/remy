@@ -7,7 +7,6 @@ For the Jenkins integration to work properly, the following plugins are required
 
  - Github Plugin
  - Jenkins Git client plugin
- - Jenkins Multiple SCMs Plugin
 
 The following Jenkins plugin is optionally supported:
 

@@ -9,7 +9,7 @@ import sys
 
 GITHASH_RE = re.compile(r'commit (\w+)')
 COOKBOOK_URL_RE = re.compile(r'cookbook\s+([\w\:\.\/\-\@]+)\s')
-METADATA_RE = re.compile(r'^(\s+|)([\w]+)\s+(["\']|)([\w\s,\.@\:]+)(["\']|)'
+METADATA_RE = re.compile(r'^(\s+|)([\w]+)\s+(["\']|)([\w\s,\-\.@\:]+)(["\']|)'
                          r'([\s+\n]|,\s+(["\']|)([\w\s,\.@\:]+)(["\']|)'
                          r'[\s+\n])', re.M)
 METADATA_KEYWORDS = ['name', 'maintainer', 'maintainer_email', 'license',
@@ -65,7 +65,7 @@ class CookbookManager(object):
 
     @property
     def cookbook_name(self):
-        return self.cookbook_metadata.get('name')
+        return self.cookbook_metadata.get('name').strip()
 
     @property
     def cookbook_metadata(self):
@@ -113,6 +113,10 @@ class CookbookManager(object):
         return match.groups()[0]
 
     def process_cookbook(self):
+        if not self.cookbook_name:
+            sys.stderr.write('Could not find cookbook name, exiting\n')
+            sys.exit(1)
+
         commits = [self.process_cookbook_submodule(self.cookbook_name,
                                                    self.submodule_path,
                                                    self.cookbook_git_url,
