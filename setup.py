@@ -2,7 +2,7 @@ from setuptools import setup
 from remy import __version__, __description__
 import sys
 
-requirements = ['requests', 'sh']
+requirements = ['lxml', 'requests', 'sh']
 
 if sys.version_info < (2, 7, 0):
     requirements.append('argparse')
