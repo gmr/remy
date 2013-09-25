@@ -14,6 +14,8 @@ The following Jenkins plugin is optionally supported:
 
 Remy requires Python 2.6 or 2.7
 
+[![PyPI version](https://badge.fury.io/py/remy.png)](http://badge.fury.io/py/remy) [![Downloads](https://pypip.in/d/remy/badge.png)](https://crate.io/packages/pamqp) [![Build Status](https://travis-ci.org/gmr/remy.png?branch=master)](https://travis-ci.org/gmr/remy)
+
 Commands
 --------
 Remy currently supports the following commands
