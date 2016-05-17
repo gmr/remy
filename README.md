@@ -1,5 +1,7 @@
 Remy
 ====
+:boom:**Important**:boom: This project is deprecated and no longer maintained. If you'd like to take it over, please contact me.
+
 Remy is a tool for managing Chef repositories and automating the addition and
 management of cookbooks with a chef server using Jenkins and GitHub.
 
